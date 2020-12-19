@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+    <node pkg="sensor_pkg" type="video_to_topic" name="video_to_topic" output="screen"/>
+    <node name="pred_muluti_velocity" pkg="alphapose_ros" type="pred_muluti_velocity.py" output="screen"/>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find alphapose_ros)/config/sensor_fusion.rviz" output="screen"/>
+</launch>

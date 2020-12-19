@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--Sensor Fusion-->
+
+<launch>
+    <!-- paramファイルの設定 -->
+    <arg name="name" default="yone.yaml"/>
+    <rosparam file="$(find navi)/param/$(arg name)" command="load" />
+
+    <!-- leg_tracker -->
+    <include file="$(find navi)/launch/includes/leg_tracker.xml"/>
+    
+    <!--odometry-->
+    <include file="$(find navi)/launch/includes/odom.xml" />
+    
+    <!-- map_server -->
+    <node pkg="navi" type="map_server_command" name="map_server_command" />
+
+    <!-- amcl -->
+    <include file="$(find navi)/launch/includes/amcl_shimizu.xml"/>
+
+    <!-- tf -->
+    <node name="tf_laser_camera" pkg="tf" type="static_transform_publisher" args="0.0 0.0 0.22 1.63 -0.0 -1.570796 laser camera 100"/>
+    <node name="tf_link_laser" pkg="tf" type="static_transform_publisher" args="0.07 0 0.19 -1.571 0 0 base_link laser 100"/>
+    <node name="tf_footprint_link" pkg="tf" type="static_transform_publisher" args="0 0 0.085 0 0 0 base_footprint base_link 100"/>
+    <!-- rosbag -->
+    <param name="/use_sim_time" value="true"/>
+    <node pkg="rosbag" type="play" name="play" args="--clock /home/robog/data/1102/02/raw_not_tf.bag -l" />
+
+    <!-- depth_to_velodyne -->
+    <!-- <node pkg="sensor_pkg" type="depth_velodyne_fusion2" name="depth_velodyne_fusion2" output= "screen"> -->
+    <node pkg="alphapose_ros" type="ucam_velodyne_fusion" name="ucam_velodyne_fusion" output= "screen">
+    <remap from="/lidar" to="/velodyne_points" />
+    <param name="theta_th_x_limit" value="4.0"/> 
+    <param name="theta_th_y_limit" value="7.0"/>
+    </node>
+
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find alphapose_ros)/config/sensor_fusion.rviz" output="screen"/>
+
+    <node pkg = "alphapose_ros" name = "pred_velocity" type = "pred_velocity.py" output = "screen"/>
+</launch>
