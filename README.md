@@ -19,5 +19,5 @@ darknet.py内　detector/yolo/cfg/yolov3-spp.cfg
 以下の２つを起動
 roslaunch alphapose_ros alphapose_demo.launch
 ./alphapose.sh
-![muluti_predict](https://user-images.githubusercontent.com/55490093/102687343-ac828e00-4231-11eb-800c-11887f64eb0b.png)
+
 ![rosgraph](https://user-images.githubusercontent.com/55490093/102687344-b0161500-4231-11eb-9be2-51c46f8bd9c7.png)
