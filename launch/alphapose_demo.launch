@@ -2,9 +2,7 @@
 <!--Sensor Fusion-->
 
 <launch>
-    <!-- paramファイルの設定 -->
-    <arg name="name" default="yone.yaml"/>
-    <rosparam file="$(find navi)/param/$(arg name)" command="load" />
+
 
     <!-- tf -->
     <node name="tf_laser_camera" pkg="tf" type="static_transform_publisher" args="0.0 0.0 0.22 1.63 -0.0 -1.570796 laser camera 100"/>
@@ -12,7 +10,7 @@
 
     <!-- rosbag -->
     <param name="/use_sim_time" value="true"/>
-    <node pkg="rosbag" type="play" name="play" args="--clock /home/robog/data/1102/04/raw.bag -l" />
+    <node pkg="rosbag" type="play" name="play" args="--clock (path to .bag) -l" />
 
     <!-- depth_to_velodyne -->
     <!-- <node pkg="sensor_pkg" type="depth_velodyne_fusion2" name="depth_velodyne_fusion2" output= "screen"> -->
